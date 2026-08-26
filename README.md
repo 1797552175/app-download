@@ -28,13 +28,26 @@ npm run dev
 ```bash
 cp .env.example .env
 # 务必修改 SESSION_SECRET，建议同时修改管理员密码
+# 若 3000 端口已被占用，在 .env 里设置 APP_PORT=3001（或其他空闲端口）
 
 docker compose up -d --build
 ```
 
-访问：`http://服务器IP:3000`
+访问：`http://服务器IP:3001`（端口以 `.env` 中 `APP_PORT` 为准，默认 3001）
 
-反向代理（Nginx）示例：把域名指到 `127.0.0.1:3000` 即可。
+反向代理（Nginx）示例：把域名指到 `127.0.0.1:3001` 即可。
+
+### 端口被占用时
+
+```bash
+# 查看谁占用了 3000
+ss -tlnp | grep 3000
+
+# 在 .env 里改端口后重启
+echo "APP_PORT=3001" >> .env
+docker compose down
+docker compose up -d
+```
 
 ## 目录说明
 
