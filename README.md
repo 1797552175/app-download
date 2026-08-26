@@ -29,11 +29,14 @@ npm run dev
 cp .env.example .env
 # 务必修改 SESSION_SECRET，建议同时修改管理员密码
 # 若 3000 端口已被占用，在 .env 里设置 APP_PORT=3001（或其他空闲端口）
+# 用 IP + HTTP 直连时保留 COOKIE_SECURE=false（.env.example 已默认）
 
 docker compose up -d --build
 ```
 
 访问：`http://服务器IP:3001`（端口以 `.env` 中 `APP_PORT` 为准，默认 3001）
+
+> 生产环境若配置了 HTTPS 域名，请将 `COOKIE_SECURE` 设为 `true` 或删除该行（默认 production 下为 true）。
 
 反向代理（Nginx）示例：把域名指到 `127.0.0.1:3001` 即可。
 
@@ -68,5 +71,6 @@ data/                运行时数据（勿提交）
 | `ADMIN_USERNAME` | 首次初始化管理员账号 |
 | `ADMIN_PASSWORD` | 首次初始化管理员密码 |
 | `DATA_DIR` | 数据目录，Docker 中为 `/data` |
+| `COOKIE_SECURE` | 会话 Cookie 是否仅 HTTPS；IP + HTTP 直连时设为 `false` |
 
 > 管理员仅在首次不存在时根据环境变量创建；之后改 `.env` 不会自动改已有密码。
