@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    container_name: qicheng-download
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      DATA_DIR: /data
+      NODE_ENV: production
+    volumes:
+      - qicheng-data:/data
+    restart: unless-stopped
+
+volumes:
+  qicheng-data:
