@@ -23,13 +23,17 @@ export function formatBytes(bytes: number | null | undefined) {
   return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
-export function formatDate(date: Date | null | undefined) {
-  if (!date) return "—";
+export function formatDate(
+  date: Date | string | number | null | undefined,
+) {
+  if (date == null || date === "") return "—";
+  const value = date instanceof Date ? date : new Date(date);
+  if (Number.isNaN(value.getTime())) return "—";
   return new Intl.DateTimeFormat("zh-CN", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-  }).format(date);
+  }).format(value);
 }
